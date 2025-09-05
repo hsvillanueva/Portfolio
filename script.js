@@ -80,6 +80,12 @@ function displayProjects(projects) {
         return;
     }
 
+    // Clear any existing button sections
+    const existingButtonSection = document.querySelector('.projects-button-section');
+    if (existingButtonSection) {
+        existingButtonSection.remove();
+    }
+
     // Show only first 6 projects initially
     const initialProjects = projects.slice(0, 6);
     const remainingProjects = projects.slice(6);
@@ -87,9 +93,7 @@ function displayProjects(projects) {
     // Generate HTML for initial projects
     const initialProjectsHTML = initialProjects.map(project => generateProjectHTML(project)).join('');
     
-    // Set up the main projects grid with all projects
-    const allProjectsHTML = projects.map(project => generateProjectHTML(project)).join('');
-    
+    // Set up the projects container with two separate grids
     projectsContainer.innerHTML = `
         <div class="projects-grid" id="main-projects-grid">
             ${initialProjectsHTML}
@@ -98,14 +102,14 @@ function displayProjects(projects) {
         </div>
     `;
     
-    // Add show more button in a completely separate section if there are more than 6
+    // Add show more button if there are more than 6 projects
     if (remainingProjects.length > 0) {
         const additionalProjectsHTML = remainingProjects.map(project => generateProjectHTML(project)).join('');
         
-        // Populate the additional projects
+        // Populate the additional projects grid
         document.getElementById('additional-projects-grid').innerHTML = additionalProjectsHTML;
         
-        // Create a separate button section after the projects container
+        // Create and insert the button section
         const buttonSection = document.createElement('div');
         buttonSection.className = 'projects-button-section';
         buttonSection.innerHTML = `
@@ -115,10 +119,10 @@ function displayProjects(projects) {
             </button>
         `;
         
-        // Insert the button section right after the projects container
+        // Insert the button section after the projects container
         projectsContainer.parentNode.insertBefore(buttonSection, projectsContainer.nextSibling);
         
-        // Add event listener for show more button
+        // Add event listener for the button
         const showMoreBtn = document.getElementById('show-more-btn');
         const additionalProjects = document.getElementById('additional-projects-grid');
         let isExpanded = false;
@@ -141,19 +145,22 @@ function displayProjects(projects) {
 
 function generateProjectHTML(project) {
     return `
-        <div class="project-card">
+        <div class="project-card" onclick="window.open('${project.html_url}', '_blank')" style="cursor: pointer;">
+            ${project.isOrgContribution ? '<span class="contribution-badge org">Organization</span>' :
+              project.isExternalContribution ? '<span class="contribution-badge external">Contribution</span>' : 
+              project.fork ? '<span class="contribution-badge">Fork</span>' : ''}
             <div class="project-header">
                 <h3 class="project-title">
                     ${project.name}
-                    ${project.isOrgContribution ? '<span class="contribution-badge org"><i class="fas fa-building"></i> Organization Project</span>' :
-                      project.isExternalContribution ? '<span class="contribution-badge external"><i class="fas fa-users"></i> External Contribution</span>' : 
-                      project.fork ? '<span class="contribution-badge"><i class="fas fa-code-branch"></i> Fork Contribution</span>' : ''}
                 </h3>
                 <p class="project-description">${project.description || 'No description available'}</p>
-                ${project.isOrgContribution || project.isExternalContribution ? `<p class="project-owner">by ${project.owner.login}</p>` : ''}
             </div>
             <div class="project-content">
                 <div class="project-stats">
+                    <div class="stat">
+                        <i class="fas fa-circle"></i>
+                        <span>${project.language || 'Unknown'}</span>
+                    </div>
                     <div class="stat">
                         <i class="fas fa-star"></i>
                         <span>${project.stargazers_count}</span>
@@ -162,29 +169,6 @@ function generateProjectHTML(project) {
                         <i class="fas fa-code-branch"></i>
                         <span>${project.forks_count}</span>
                     </div>
-                    <div class="stat">
-                        <i class="fas fa-circle"></i>
-                        <span>${project.language || 'N/A'}</span>
-                    </div>
-                </div>
-                
-                ${project.topics && project.topics.length > 0 ? `
-                    <div class="project-topics">
-                        ${project.topics.map(topic => `<span class="topic">${topic}</span>`).join('')}
-                    </div>
-                ` : ''}
-                
-                <div class="project-links">
-                    <a href="${project.html_url}" target="_blank" class="project-link repo-link">
-                        <i class="fab fa-github"></i>
-                        <span>View Code</span>
-                    </a>
-                    ${project.homepage ? `
-                        <a href="${project.homepage}" target="_blank" class="project-link demo-link">
-                            <i class="fas fa-external-link-alt"></i>
-                            <span>Live Demo</span>
-                        </a>
-                    ` : ''}
                 </div>
             </div>
         </div>

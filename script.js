@@ -132,7 +132,6 @@ function displayProjects(projects) {
     `).join('');
 }
 
-// Display error message
 function displayError() {
     projectsContainer.innerHTML = `
         <div class="error">

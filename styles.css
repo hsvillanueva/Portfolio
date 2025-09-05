@@ -121,18 +121,19 @@ header {
 
 .cta-button {
     display: inline-block;
-    background: #238636;
-    color: white;
+    background: transparent;
+    color: #2ea043;
     padding: 12px 24px;
     text-decoration: none;
     border-radius: 6px;
     font-weight: normal;
-    border: 1px solid #2ea043;
-    transition: background-color 0.2s ease;
+    border: 1.5px solid #2ea043;
+    transition: all 0.2s ease;
 }
 
 .cta-button:hover {
     background: #2ea043;
+    color: white;
 }
 
 /* About Section */

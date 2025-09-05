@@ -144,35 +144,82 @@ function displayProjects(projects) {
 }
 
 function generateProjectHTML(project) {
+    const isOrganization = project.owner.type === 'Organization';
+    const contributionBadge = isOrganization ? 
+        `<span class="contribution-badge organization">
+            Organization Project
+        </span>` : 
+        `<span class="contribution-badge personal">
+            Personal Project
+        </span>`;
+    
+    // Generate owner display if it's different from the main user
+    const ownerDisplay = project.owner.login !== 'RegenXYZ' ? 
+        `<div class="project-owner">by ${project.owner.login}</div>` : '';
+    
     return `
-        <div class="project-card" onclick="window.open('${project.html_url}', '_blank')" style="cursor: pointer;">
-            ${project.isOrgContribution ? '<span class="contribution-badge org">Organization</span>' :
-              project.isExternalContribution ? '<span class="contribution-badge external">Contribution</span>' : 
-              project.fork ? '<span class="contribution-badge">Fork</span>' : ''}
+        <a href="${project.html_url}" target="_blank" class="project-card">
             <div class="project-header">
-                <h3 class="project-title">
-                    ${project.name}
-                </h3>
-                <p class="project-description">${project.description || 'No description available'}</p>
-            </div>
-            <div class="project-content">
-                <div class="project-stats">
-                    <div class="stat">
-                        <i class="fas fa-circle"></i>
-                        <span>${project.language || 'Unknown'}</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-star"></i>
-                        <span>${project.stargazers_count}</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-code-branch"></i>
-                        <span>${project.forks_count}</span>
+                <div class="project-title-section">
+                    <i class="fas fa-code-branch project-icon"></i>
+                    <div>
+                        <h3 class="project-title">${project.name}</h3>
+                        ${ownerDisplay}
                     </div>
                 </div>
+                ${contributionBadge}
             </div>
-        </div>
+            
+            <p class="project-description">
+                ${project.description || 'A Debate Tabbing Web Application made for the Timber City Academy Debate League.'}
+            </p>
+            
+            <div class="project-footer">
+                ${project.language ? `
+                    <div class="project-language">
+                        <span class="language-color" style="background-color: ${getLanguageColor(project.language)};"></span>
+                        ${project.language}
+                    </div>
+                ` : '<div class="project-language"><span class="language-color" style="background-color: #ccc;"></span>N/A</div>'}
+                
+                <div class="project-stars">
+                    <i class="fas fa-star"></i>
+                    ${project.stargazers_count}
+                </div>
+                
+                <div class="project-forks">
+                    <i class="fas fa-code-branch"></i>
+                    ${project.forks_count}
+                </div>
+            </div>
+        </a>
     `;
+}
+
+function getLanguageColor(language) {
+    const languageColors = {
+        'JavaScript': '#f1e05a',
+        'Python': '#3572A5',
+        'Java': '#b07219',
+        'HTML': '#e34c26',
+        'CSS': '#1572B6',
+        'TypeScript': '#2b7489',
+        'C++': '#f34b7d',
+        'C': '#555555',
+        'C#': '#239120',
+        'PHP': '#4F5D95',
+        'Ruby': '#701516',
+        'Go': '#00ADD8',
+        'Rust': '#dea584',
+        'Swift': '#ffac45',
+        'Kotlin': '#F18E33',
+        'Dart': '#00B4AB',
+        'Shell': '#89e051',
+        'Vue': '#2c3e50',
+        'React': '#61dafb',
+        'Angular': '#dd0031'
+    };
+    return languageColors[language] || '#8b949e';
 }
 
 function displayError() {

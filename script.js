@@ -1,22 +1,67 @@
-// Configuration - Replace with your GitHub username
-const GITHUB_USERNAME = 'hsvillanueva'; // Replace this with your actual GitHub username
-
-// DOM elements
+const GITHUB_USERNAME = 'hsvillanueva';
 const projectsContainer = document.getElementById('projects-container');
 
-// Fetch GitHub repositories
 async function fetchGitHubProjects() {
     try {
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`);
+        const reposResponse = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12&type=all`);
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!reposResponse.ok) {
+            throw new Error(`HTTP error! status: ${reposResponse.status}`);
         }
         
-        const repos = await response.json();
+        const repos = await reposResponse.json();
+        const orgsResponse = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/orgs`);
+        let orgRepos = [];
         
-        // Filter out forked repositories and empty repos (optional)
-        const filteredRepos = repos.filter(repo => !repo.fork && repo.description);
+        if (orgsResponse.ok) {
+            const orgs = await orgsResponse.json();
+            for (const org of orgs.slice(0, 3)) {
+                try {
+                    const orgReposResponse = await fetch(`https://api.github.com/orgs/${org.login}/repos?sort=updated&per_page=10`);
+                    if (orgReposResponse.ok) {
+                        const orgReposData = await orgReposResponse.json();
+                        const recentOrgRepos = orgReposData.filter(repo => 
+                            repo.description && 
+                            new Date(repo.updated_at) > new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
+                        );
+                        orgRepos.push(...recentOrgRepos);
+                    }
+                } catch (error) {
+                    console.log(`Could not fetch repos for org ${org.login}:`, error);
+                }
+            }
+        }
+        let searchContributions = [];
+        try {
+            const contributionsResponse = await fetch(`https://api.github.com/search/repositories?q=committer:${GITHUB_USERNAME}+is:public&sort=updated&per_page=6`);
+            if (contributionsResponse.ok) {
+                const contributionsData = await contributionsResponse.json();
+                searchContributions = contributionsData.items || [];
+            }
+        } catch (error) {
+            console.log('Search API failed:', error);
+        }
+        const allRepos = [...repos, ...orgRepos, ...searchContributions];
+        const uniqueRepos = allRepos.filter((repo, index, self) => 
+            index === self.findIndex(r => r.id === repo.id)
+        );
+        
+        const processedRepos = uniqueRepos.map(repo => {
+            const isOwned = repo.owner.login === GITHUB_USERNAME;
+            const isFork = repo.fork;
+            const isOrgRepo = !isOwned && !isFork && orgRepos.some(orgRepo => orgRepo.id === repo.id);
+            
+            return {
+                ...repo,
+                isExternalContribution: !isOwned && !isFork && !isOrgRepo,
+                isOrgContribution: isOrgRepo
+            };
+        });
+
+        const filteredRepos = processedRepos
+            .filter(repo => repo.description)
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+            .slice(0, 6);
         
         displayProjects(filteredRepos);
     } catch (error) {
@@ -25,7 +70,6 @@ async function fetchGitHubProjects() {
     }
 }
 
-// Display projects in the grid
 function displayProjects(projects) {
     if (projects.length === 0) {
         projectsContainer.innerHTML = `
@@ -40,8 +84,14 @@ function displayProjects(projects) {
     projectsContainer.innerHTML = projects.map(project => `
         <div class="project-card">
             <div class="project-header">
-                <h3 class="project-title">${project.name}</h3>
+                <h3 class="project-title">
+                    ${project.name}
+                    ${project.isOrgContribution ? '<span class="contribution-badge org"><i class="fas fa-building"></i> Organization Project</span>' :
+                      project.isExternalContribution ? '<span class="contribution-badge external"><i class="fas fa-users"></i> External Contribution</span>' : 
+                      project.fork ? '<span class="contribution-badge"><i class="fas fa-code-branch"></i> Fork Contribution</span>' : ''}
+                </h3>
                 <p class="project-description">${project.description || 'No description available'}</p>
+                ${project.isOrgContribution || project.isExternalContribution ? `<p class="project-owner">by ${project.owner.login}</p>` : ''}
             </div>
             <div class="project-content">
                 <div class="project-stats">
@@ -97,7 +147,6 @@ function displayError() {
     `;
 }
 
-// Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -111,7 +160,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Simple header background change on scroll
 window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
     if (window.scrollY > 50) {
@@ -121,15 +169,11 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Observe project cards for animations
 document.addEventListener('DOMContentLoaded', () => {
-    // Fetch projects when page loads
     fetchGitHubProjects();
 });
 
-// Simple function to update personal information
 function updatePersonalInfo() {
-    // You can customize these values
     const personalInfo = {
         name: "Hannah Villanueva",
         title: "Developer in Progress",
@@ -139,26 +183,21 @@ function updatePersonalInfo() {
         github: `https://github.com/hsvillanueva`
     };
     
-    // Update the page content
     document.querySelector('.hero-content h1').textContent = `> ${personalInfo.name}`;
     document.querySelector('.hero-content p').textContent = personalInfo.title;
     document.querySelector('.about p').textContent = personalInfo.description;
     
-    // Update social links
     const socialLinks = document.querySelectorAll('.social-links a');
-    socialLinks[0].href = personalInfo.github; // GitHub
-    socialLinks[1].href = personalInfo.linkedin; // LinkedIn
-    socialLinks[2].href = `mailto:${personalInfo.email}`; // Email
+    socialLinks[0].href = personalInfo.github; 
+    socialLinks[1].href = personalInfo.linkedin;
+    socialLinks[2].href = `mailto:${personalInfo.email}`;
 }
 
-// Call the function to update personal info when page loads
 document.addEventListener('DOMContentLoaded', () => {
     updatePersonalInfo();
     
-    // Handle profile photo error (if image doesn't exist)
     const profileImg = document.getElementById('profile-img');
     profileImg.addEventListener('error', function() {
-        // Create a placeholder if image doesn't exist
         this.style.display = 'none';
         const placeholder = document.createElement('div');
         placeholder.className = 'profile-placeholder';

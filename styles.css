@@ -186,12 +186,68 @@ header {
     margin-top: 40px;
 }
 
+/* Ensure additional projects grid has consistent styling */
+#additional-projects-grid {
+    margin-top: 20px;
+}
+
+/* Show More Button - Separate Section */
+.projects-button-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    background: #0d1117;
+}
+
+.show-more-btn {
+    background: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: normal;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: inherit;
+}
+
+.show-more-btn:hover {
+    background: #30363d;
+    border-color: #2ea043;
+    color: #2ea043;
+}
+
+.show-more-btn:focus {
+    outline: 2px solid #2ea043;
+    outline-offset: 2px;
+}
+
+.btn-icon {
+    transition: transform 0.2s ease;
+    font-size: 0.8rem;
+}
+
+/* Additional projects grid - same styling as main grid */
+.additional-projects {
+    margin-top: 20px;
+}
+
 .project-card {
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 6px;
     overflow: hidden;
     transition: border-color 0.2s ease;
+    height: 100%;
+    min-height: 280px;
+    max-height: 350px;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -251,10 +307,18 @@ header {
     color: #8b949e;
     line-height: 1.4;
     font-size: 0.9rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .project-content {
     padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-stats {
@@ -295,6 +359,7 @@ header {
 .project-links {
     display: flex;
     gap: 10px;
+    margin-top: auto;
 }
 
 .project-link {
@@ -593,6 +658,11 @@ footer {
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 15px;
+    }
+
+    .show-more-btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
     }
 
     .skills h2 {

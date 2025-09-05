@@ -60,8 +60,7 @@ async function fetchGitHubProjects() {
 
         const filteredRepos = processedRepos
             .filter(repo => repo.description)
-            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-            .slice(0, 6);
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
         
         displayProjects(filteredRepos);
     } catch (error) {
@@ -81,7 +80,67 @@ function displayProjects(projects) {
         return;
     }
 
-    projectsContainer.innerHTML = projects.map(project => `
+    // Show only first 6 projects initially
+    const initialProjects = projects.slice(0, 6);
+    const remainingProjects = projects.slice(6);
+    
+    // Generate HTML for initial projects
+    const initialProjectsHTML = initialProjects.map(project => generateProjectHTML(project)).join('');
+    
+    // Set up the main projects grid with all projects
+    const allProjectsHTML = projects.map(project => generateProjectHTML(project)).join('');
+    
+    projectsContainer.innerHTML = `
+        <div class="projects-grid" id="main-projects-grid">
+            ${initialProjectsHTML}
+        </div>
+        <div class="projects-grid" id="additional-projects-grid" style="display: none;">
+        </div>
+    `;
+    
+    // Add show more button in a completely separate section if there are more than 6
+    if (remainingProjects.length > 0) {
+        const additionalProjectsHTML = remainingProjects.map(project => generateProjectHTML(project)).join('');
+        
+        // Populate the additional projects
+        document.getElementById('additional-projects-grid').innerHTML = additionalProjectsHTML;
+        
+        // Create a separate button section after the projects container
+        const buttonSection = document.createElement('div');
+        buttonSection.className = 'projects-button-section';
+        buttonSection.innerHTML = `
+            <button id="show-more-btn" class="show-more-btn">
+                <span class="btn-text">Show ${remainingProjects.length} More Projects</span>
+                <i class="fas fa-chevron-down btn-icon"></i>
+            </button>
+        `;
+        
+        // Insert the button section right after the projects container
+        projectsContainer.parentNode.insertBefore(buttonSection, projectsContainer.nextSibling);
+        
+        // Add event listener for show more button
+        const showMoreBtn = document.getElementById('show-more-btn');
+        const additionalProjects = document.getElementById('additional-projects-grid');
+        let isExpanded = false;
+        
+        showMoreBtn.addEventListener('click', () => {
+            if (!isExpanded) {
+                additionalProjects.style.display = 'grid';
+                showMoreBtn.querySelector('.btn-text').textContent = 'Show Less';
+                showMoreBtn.querySelector('.btn-icon').classList.replace('fa-chevron-down', 'fa-chevron-up');
+                isExpanded = true;
+            } else {
+                additionalProjects.style.display = 'none';
+                showMoreBtn.querySelector('.btn-text').textContent = `Show ${remainingProjects.length} More Projects`;
+                showMoreBtn.querySelector('.btn-icon').classList.replace('fa-chevron-up', 'fa-chevron-down');
+                isExpanded = false;
+            }
+        });
+    }
+}
+
+function generateProjectHTML(project) {
+    return `
         <div class="project-card">
             <div class="project-header">
                 <h3 class="project-title">
@@ -129,7 +188,7 @@ function displayProjects(projects) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
 }
 
 function displayError() {

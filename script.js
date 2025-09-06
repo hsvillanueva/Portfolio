@@ -80,20 +80,15 @@ function displayProjects(projects) {
         return;
     }
 
-    // Clear any existing button sections
     const existingButtonSection = document.querySelector('.projects-button-section');
     if (existingButtonSection) {
         existingButtonSection.remove();
     }
 
-    // Show only first 6 projects initially
     const initialProjects = projects.slice(0, 6);
     const remainingProjects = projects.slice(6);
-    
-    // Generate HTML for initial projects
     const initialProjectsHTML = initialProjects.map(project => generateProjectHTML(project)).join('');
     
-    // Set up the projects container with two separate grids
     projectsContainer.innerHTML = `
         <div class="projects-grid" id="main-projects-grid">
             ${initialProjectsHTML}
@@ -102,14 +97,9 @@ function displayProjects(projects) {
         </div>
     `;
     
-    // Add show more button if there are more than 6 projects
     if (remainingProjects.length > 0) {
         const additionalProjectsHTML = remainingProjects.map(project => generateProjectHTML(project)).join('');
-        
-        // Populate the additional projects grid
         document.getElementById('additional-projects-grid').innerHTML = additionalProjectsHTML;
-        
-        // Create and insert the button section
         const buttonSection = document.createElement('div');
         buttonSection.className = 'projects-button-section';
         buttonSection.innerHTML = `
@@ -119,10 +109,7 @@ function displayProjects(projects) {
             </button>
         `;
         
-        // Insert the button section after the projects container
         projectsContainer.parentNode.insertBefore(buttonSection, projectsContainer.nextSibling);
-        
-        // Add event listener for the button
         const showMoreBtn = document.getElementById('show-more-btn');
         const additionalProjects = document.getElementById('additional-projects-grid');
         let isExpanded = false;
@@ -153,7 +140,6 @@ function generateProjectHTML(project) {
             Personal Project
         </span>`;
     
-    // Generate owner display if it's different from the main user
     const ownerDisplay = project.owner.login !== 'RegenXYZ' ? 
         `<div class="project-owner">by ${project.owner.login}</div>` : '';
     

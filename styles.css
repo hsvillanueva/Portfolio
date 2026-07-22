@@ -492,9 +492,9 @@ main {
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
-  min-height: 184px;
+  min-height: 142px;
   min-width: 0;
-  padding: 20px;
+  padding: 16px;
   text-align: left;
   transition: border-color 180ms ease, transform 180ms ease;
 }
@@ -504,27 +504,13 @@ main {
   transform: translateY(-2px);
 }
 
-.card-icon {
-  align-items: center;
-  background: rgba(156, 238, 224, 0.11);
-  border: 1px solid rgba(156, 238, 224, 0.26);
-  border-radius: 8px;
-  color: var(--mint);
-  display: inline-flex;
-  font-size: 0.78rem;
-  font-weight: 800;
-  height: 38px;
-  justify-content: center;
-  width: 38px;
-}
-
 .competency-card h3 {
-  color: var(--text-strong);
+  color: var(--mint);
   font-family: var(--display);
   font-size: 1rem;
   font-weight: 800;
   line-height: 1.35;
-  margin: 20px 0 12px;
+  margin: 0 0 12px;
 }
 
 .competency-card p {

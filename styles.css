@@ -284,6 +284,11 @@ main {
   transition: box-shadow 180ms ease, transform 180ms ease;
 }
 
+.resume-button svg {
+  height: 17px;
+  width: 17px;
+}
+
 .primary-button:hover,
 .resume-button:hover {
   box-shadow: 0 16px 36px rgba(156, 238, 224, 0.22);
@@ -576,13 +581,13 @@ main {
 }
 
 .contact-link {
-  align-items: start;
+  align-items: center;
   background: var(--bg-overlay);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-strong);
   display: grid;
-  gap: 8px;
+  column-gap: 10px;
   grid-template-columns: 38px minmax(0, 1fr);
   justify-content: start;
   min-height: 118px;
@@ -600,7 +605,6 @@ main {
 
 .contact-icon {
   align-items: center;
-  align-self: start;
   background: rgba(156, 238, 224, 0.11);
   border: 1px solid rgba(156, 238, 224, 0.26);
   border-radius: 8px;
@@ -608,13 +612,26 @@ main {
   display: inline-flex;
   font-size: 0.7rem;
   font-weight: 800;
-  grid-row: span 2;
   height: 38px;
   justify-content: center;
   width: 38px;
 }
 
-.contact-link span:not(.contact-icon) {
+.contact-icon svg {
+  display: block;
+  fill: currentColor;
+  height: 20px;
+  width: 20px;
+}
+
+.contact-copy {
+  align-self: center;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.contact-copy span {
   color: var(--text-soft);
   font-size: 0.78rem;
   font-weight: 800;
@@ -622,7 +639,7 @@ main {
   text-transform: uppercase;
 }
 
-.contact-link strong {
+.contact-copy strong {
   color: var(--text-strong);
   display: block;
   font-size: 0.92rem;

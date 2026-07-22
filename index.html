@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio of Hannah Villanueva, aspiring web designer and developer."
+    />
+    <title>Hannah Villanueva | Portfolio</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-open="false">
+      <div class="topbar-inner">
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="#work" data-href="#work" aria-current="page">Work</a>
+          <a href="#about" data-href="#about">About</a>
+          <a href="#skills" data-href="#skills">Skills</a>
+          <a href="#contact" data-href="#contact">Contact</a>
+          <span class="nav-indicator" aria-hidden="true"></span>
+        </nav>
+
+        <div class="topbar-actions">
+          <button
+            class="icon-button mobile-menu-button"
+            type="button"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+          >
+            <span class="menu-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <a href="#work" aria-current="page">Work</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-section section-shell" id="work">
+        <div class="hero-copy">
+          <p class="eyebrow">Aspiring Web Designer and Developer</p>
+          <h1>Hi, I'm Hannah Villanueva</h1>
+          <p class="hero-text">My personal portfolio for showcasing my work and designs.</p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="primary-button" href="#skills">
+              View My Work
+              <span aria-hidden="true">-&gt;</span>
+            </a>
+            <a class="resume-button" href="resume.pdf" download>
+              <span aria-hidden="true">Download</span>
+              Resume
+            </a>
+          </div>
+        </div>
+
+        <div class="profile-panel" aria-label="Hannah Villanueva profile image">
+          <div class="profile-frame" data-has-photo="false">
+            <img class="profile-photo" alt="Hannah Villanueva portrait" hidden />
+            <div class="profile-placeholder" aria-hidden="true">
+              <span class="profile-ring profile-ring-one"></span>
+              <span class="profile-ring profile-ring-two"></span>
+              <span class="profile-silhouette"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section section-shell" id="about">
+        <div class="section-label">
+          <p class="eyebrow">Profile</p>
+          <h2>About Me</h2>
+          <span aria-hidden="true"></span>
+        </div>
+
+        <div class="about-panel">
+          <p>
+            I am an aspiring web designer and developer with a passion for creating simple yet
+            engaging digital experiences. My work focuses on blending aesthetics with
+            functionality, ensuring that every project I undertake is both visually appealing and
+            user-friendly.
+          </p>
+          <p>
+            Aside from front-end development, I have experience with back-end development and even
+            Artificial Intelligence.
+          </p>
+        </div>
+      </section>
+
+      <section class="skills-section section-shell" id="skills">
+        <div class="center-heading">
+          <p class="eyebrow">Capabilities</p>
+          <h2>Core Skills</h2>
+        </div>
+
+        <div class="competency-grid">
+          <article class="competency-card">
+            <span class="card-icon" aria-hidden="true">01</span>
+            <h3>Languages</h3>
+            <p>Python, C, JavaScript ES6+, HTML5, and CSS3.</p>
+          </article>
+          <article class="competency-card">
+            <span class="card-icon" aria-hidden="true">02</span>
+            <h3>Web &amp; Frontend</h3>
+            <p>React.js and responsive web design for polished browser experiences.</p>
+          </article>
+          <article class="competency-card">
+            <span class="card-icon" aria-hidden="true">03</span>
+            <h3>Backend &amp; Systems</h3>
+            <p>Backend development fundamentals with Supabase integration.</p>
+          </article>
+          <article class="competency-card">
+            <span class="card-icon" aria-hidden="true">04</span>
+            <h3>Integration UI/UX Design</h3>
+            <p>Figma, Uizard, and Google Stitch for interface planning.</p>
+          </article>
+          <article class="competency-card">
+            <span class="card-icon" aria-hidden="true">05</span>
+            <h3>Developer Tools &amp; AI</h3>
+            <p>Git, GitHub, OpenAI Codex prompt engineering, and version control.</p>
+          </article>
+          <article class="competency-card">
+            <span class="card-icon" aria-hidden="true">06</span>
+            <h3>Productivity &amp; Media</h3>
+            <p>Microsoft Office and Canva for documentation and visual presentation.</p>
+          </article>
+        </div>
+
+        <div class="skill-pills" aria-label="Tools and skills">
+          <span>Python</span>
+          <span>C</span>
+          <span>JavaScript ES6+</span>
+          <span>HTML5</span>
+          <span>CSS3</span>
+          <span>React.js</span>
+          <span>Responsive Web Design</span>
+          <span>Supabase</span>
+          <span>Figma</span>
+          <span>Uizard</span>
+          <span>Wireframing</span>
+          <span>Google Stitch</span>
+          <span>Git</span>
+          <span>GitHub</span>
+          <span>OpenAI Codex</span>
+          <span>Prompt Engineering</span>
+          <span>Version Control</span>
+          <span>Microsoft Office Suite</span>
+          <span>Canva</span>
+        </div>
+      </section>
+
+      <section class="contact-section section-shell" id="contact">
+        <div class="contact-panel">
+          <p class="eyebrow">Contact</p>
+          <h2>Contact Me</h2>
+
+          <div class="contact-methods" aria-label="Contact links">
+            <a class="contact-link" href="https://github.com/hsvillanueva" target="_blank" rel="noreferrer">
+              <span class="contact-icon" aria-hidden="true">GH</span>
+              <span>GitHub</span>
+              <strong>github.com/hsvillanueva</strong>
+            </a>
+            <a
+              class="contact-link"
+              href="https://www.linkedin.com/in/hannahsophiavillanueva/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="contact-icon" aria-hidden="true">IN</span>
+              <span>LinkedIn</span>
+              <strong>linkedin.com/in/hannahsophiavillanueva</strong>
+            </a>
+            <a class="contact-link" href="tel:+639709684207">
+              <span class="contact-icon" aria-hidden="true">PH</span>
+              <span>Phone</span>
+              <strong>+63 970 968 4207</strong>
+            </a>
+            <a class="contact-link" href="mailto:hslvillanueva@gmail.com">
+              <span class="contact-icon" aria-hidden="true">EM</span>
+              <span>Email</span>
+              <strong>hslvillanueva@gmail.com</strong>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <span class="ambient-cursor" aria-hidden="true"></span>
+    <footer class="site-footer" aria-label="Page footer"></footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

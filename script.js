@@ -98,7 +98,21 @@ async function loadProfileImage() {
     return
   }
 
-  const availableSource = (await imageExists('profile.png')) || (await imageExists('profile.jpg'))
+  const profileSources = [
+    'images/profile.png',
+    'images/profile.jpg',
+    'profile.png',
+    'profile.jpg',
+  ]
+  let availableSource = null
+
+  for (const source of profileSources) {
+    availableSource = await imageExists(source)
+
+    if (availableSource) {
+      break
+    }
+  }
 
   if (!availableSource) {
     return
